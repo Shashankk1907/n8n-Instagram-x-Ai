@@ -341,7 +341,7 @@
     },
     {
       "parameters": {
-        "content": "\n💡 Tip: Set Airtable Gallery View to get a clean 3×4 visual layout.\n",
+        "content": "\n💡 Tip: Rerun the project by sending ur insta id as soemtimes it takes time for Brighdata's sanpshot_id to work for extraction.\n",
         "height": 80,
         "width": 280,
         "color": 4

@@ -1,5 +1,5 @@
 {
-  "name": "INSTAGRAM WORKFLOW",
+  "name": "My workflow copyyyyyy",
   "nodes": [
     {
       "parameters": {
@@ -31,7 +31,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer 56bc6e42e55aaa878106a499b8c6bdfe49b51ff2ac6867e8a0eaabb9871baf7b"
+              "value": "Bearer 1b0e2ad38c83fabf3ebc50c05ba6fb9c5fe9dd1f9683a127cf0c3c53a56f0bac"
             }
           ]
         },
@@ -43,10 +43,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -20,
-        200
+        -360,
+        560
       ],
-      "id": "8d3ff40d-8426-4792-ab56-2accf17d2d11",
+      "id": "7e88b4c5-9153-43ee-ade5-6f535bb63555",
       "name": "HTTP Request1"
     },
     {
@@ -66,7 +66,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer 56bc6e42e55aaa878106a499b8c6bdfe49b51ff2ac6867e8a0eaabb9871baf7b"
+              "value": "Bearer 1b0e2ad38c83fabf3ebc50c05ba6fb9c5fe9dd1f9683a127cf0c3c53a56f0bac"
             }
           ]
         },
@@ -75,10 +75,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        400,
-        200
+        20,
+        520
       ],
-      "id": "c2f66c6b-edd1-4a1e-b74b-193bce18c125",
+      "id": "09ff45c8-966f-40e0-ba1c-883a2dce251b",
       "name": "HTTP Request2"
     },
     {
@@ -88,43 +88,49 @@
             {
               "id": "e5e00b67-ff5c-4075-beef-df981865f668",
               "name": "post_url",
-              "value": "={{ $json.url }} ",
+              "value": "={{ $('HTTP Request2').item.json.url }}",
               "type": "string"
             },
             {
               "id": "fdfc1e7b-250a-48a6-9e3b-015247207b2e",
               "name": "caption",
-              "value": "={{ $json.description }}",
+              "value": "={{ $('HTTP Request2').item.json.description }}",
               "type": "string"
             },
             {
               "id": "b6832a35-7a50-4453-a100-f209f596e337",
               "name": "comments",
-              "value": "={{ $json.num_comments }}",
+              "value": "={{ $('HTTP Request2').item.json.num_comments }}",
               "type": "number"
             },
             {
               "id": "d9389f05-59ce-46e4-bf2c-f93b6f10fe69",
               "name": "date_posted",
-              "value": "={{ $json.date_posted }}",
+              "value": "={{ $('HTTP Request2').item.json.date_posted }}",
               "type": "string"
             },
             {
               "id": "eb131e0d-3e60-475f-964c-0ba6b01b51d4",
               "name": "likes",
-              "value": "={{ $json.likes }}",
+              "value": "={{ $('HTTP Request2').item.json.likes }}",
               "type": "number"
             },
             {
               "id": "170a2c58-ca93-48a9-aecc-b07c5b0cee82",
               "name": "thumbnail_url",
-              "value": "={{ $json.photos[0] }}",
+              "value": "={{ $('HTTP Request2').item.json.photos[0] }}",
               "type": "string"
             },
             {
               "id": "3e1c4ed1-f0e9-4a7a-8430-97cd431d7342",
               "name": "account_id",
               "value": "={{ $('When chat message received').item.json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "4ad5cb86-792e-4b93-806c-2f0451e581bf",
+              "name": "review",
+              "value": "={{ $json.output }}",
               "type": "string"
             }
           ]
@@ -134,25 +140,119 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        580,
-        300
+        500,
+        580
       ],
-      "id": "e01cbda9-c50b-4f75-be39-29f78efde875",
+      "id": "f3d16573-4465-4060-a98c-76821d0a7eef",
       "name": "Edit Fields"
     },
     {
       "parameters": {
-        "amount": 35
+        "amount": 40
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        220,
-        300
+        -140,
+        620
       ],
-      "id": "6b65854b-9ebc-45ba-a677-e381ec82fbc2",
+      "id": "93ece627-12f9-4949-b3c8-5b0c846638af",
       "name": "Wait",
-      "webhookId": "48f21675-2252-4d6d-8d15-0e51369c2efd"
+      "webhookId": "f2c13e50-c588-4bee-ab02-67a4d4d25de9"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -600,
+        520
+      ],
+      "id": "def23836-c21e-436c-bdb1-9a5c8d6f4eec",
+      "name": "When chat message received",
+      "webhookId": "eaa310c0-2672-4db9-b4c1-ece3d0ba2b64"
+    },
+    {
+      "parameters": {
+        "content": "\n✅ What this workflow does:\n- Accepts an Instagram username from Chat\n- Scrapes latest 13 posts using BrightData API\n- Extracts caption, likes, comments, date, thumbnail\n- Uploads structured post data into Airtable (including image thumbnails)\n",
+        "height": 240,
+        "width": 360,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        140
+      ],
+      "id": "7fd70a63-2280-4265-82da-ee17404a19a6",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "🛠 How to use:\n1. Trigger this by sending a chat message with an Instagram handle (e.g., `openai`)\n(Don't use '@')\n2. Wait 30–35 seconds while data is collected\n3. View the structured post data in Airtable directly through the link\n4. Change the Brightdata API Key with your own API key in both HTTP nodes",
+        "height": 240,
+        "width": 400,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        140
+      ],
+      "id": "5043e009-9f6a-46c0-be50-9f72afe8a142",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "\n💡 Tip: Set Airtable Gallery View to get a clean 3×4 visual layout.\n",
+        "height": 80,
+        "width": 280,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        380,
+        140
+      ],
+      "id": "708e7b5d-089f-4fc2-9097-7808729a677b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "\n\n     n8n “Instagram x AI” Mini-Project",
+        "height": 80,
+        "width": 260,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1faa0fd1-0bf5-4330-9d07-b328d99f1bfc",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "This is the airtable gallery link:\n\nhttps://airtable.com/appiB6h5WZFv68Yyc/shrgXpu6pz4i3Xo1T\n\n\nClick Once Executed !",
+        "height": 140,
+        "width": 280,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        380,
+        240
+      ],
+      "id": "7089a4f3-d185-4ffc-b101-942ce31a9071",
+      "name": "Sticky Note4"
     },
     {
       "parameters": {
@@ -180,7 +280,8 @@
             "Comments": "={{ $json.comments }}",
             "THUMB": "=[\n  {\n    \"url\": \"{{ $json.thumbnail_url }}\"\n  }\n]\n",
             "Likes": "={{ $json.likes }}",
-            "Account id": "={{ $json.account_id }}"
+            "Account id": "={{ $json.account_id }}",
+            "review": "={{ $json.review }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -251,6 +352,17 @@
               "removed": false
             },
             {
+              "id": "review",
+              "displayName": "review",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
               "id": "THUMB",
               "displayName": "THUMB",
               "required": false,
@@ -260,17 +372,6 @@
               "type": "array",
               "readOnly": false,
               "removed": false
-            },
-            {
-              "id": "Attachment Summary",
-              "displayName": "Attachment Summary",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": true
             }
           ],
           "attemptToConvertTypes": false,
@@ -281,111 +382,71 @@
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        760,
-        200
+        740,
+        480
       ],
-      "id": "7b766f53-a2c6-42cf-8e79-68e8d3c31b37",
-      "name": "Airtable",
+      "id": "71e3a980-26ed-456a-b6fc-9799fe2d2ab1",
+      "name": "Create a record",
       "credentials": {
         "airtableTokenApi": {
-          "id": "IJcJ87HLNpIUpwld",
+          "id": "DHKB0NcepS3gv5cK",
           "name": "Airtable Personal Access Token account"
         }
       }
     },
     {
       "parameters": {
+        "promptType": "define",
+        "text": "=You are a social media analyst bot. You will be given a list of 13 Instagram posts. Each post contains:\n- Number of likes\n- Number of comments\n- The caption\n\nYour task is to analyze each post and write a **short performance review** in 1-2 lines. Use the likes, comments, and caption to determine whether the post performed well, average, or poorly. Use natural language, not scores.\n\nBe specific when possible. Mention if a caption was engaging, or if interaction was high/low.\n\nHere is the data:\nlikes:{{ $json.likes }}\ncomments: {{ $json.num_comments }}\ncaption: {{ $json.description }}\n",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -260,
-        280
-      ],
-      "id": "8b1099ec-b04b-492a-8b74-ef381529d140",
-      "name": "When chat message received",
-      "webhookId": "89c20093-2bba-4da1-bcf8-74656642b421"
-    },
-    {
-      "parameters": {
-        "content": "\n✅ What this workflow does:\n- Accepts an Instagram username from Chat\n- Scrapes latest 13 posts using BrightData API\n- Extracts caption, likes, comments, date, thumbnail\n- Uploads structured post data into Airtable (including image thumbnails)\n",
-        "height": 180,
-        "width": 360,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -220,
-        -140
-      ],
-      "id": "6bc376a4-737f-4c28-8252-6b2da8161986",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "content": "🛠 How to use:\n1. Trigger this by sending a chat message with an Instagram handle (e.g., `openai`)\n(Don't use '@')\n2. Wait 30–35 seconds while data is collected\n3. View the structured post data in Airtable directly through the link\n",
-        "height": 200,
-        "width": 400,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
       "position": [
         180,
-        -140
+        580
       ],
-      "id": "ddb5dfac-6b8b-4ce6-8f36-303c95708d91",
-      "name": "Sticky Note1"
+      "id": "ad83017a-1cba-4310-898f-f6955423094e",
+      "name": "AI Agent"
     },
     {
       "parameters": {
-        "content": "\n💡 Tip: Rerun the project by sending ur insta id as soemtimes it takes time for Brighdata's sanpshot_id to work for extraction.\n",
-        "height": 80,
-        "width": 280,
-        "color": 4
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
       "position": [
-        620,
-        -140
+        160,
+        880
       ],
-      "id": "ac0173fe-7fed-41a5-b897-1035c4bf70e1",
-      "name": "Sticky Note2"
+      "id": "590f1c67-750c-42bf-a31f-6c8371c57884",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "YLA1YBOawD2ymBBr",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
     },
     {
       "parameters": {
-        "content": "\n\n     n8n “Instagram x AI” Mini-Project",
-        "height": 80,
-        "width": 260,
-        "color": 5
+        "sessionIdType": "customKey",
+        "sessionKey": "23",
+        "contextWindowLength": 15
       },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
       "position": [
-        240,
-        -280
+        300,
+        800
       ],
-      "id": "987113e6-cec2-40f1-8b18-0978d1283f5e",
-      "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "content": "This is the airtable gallery link:\n\nhttps://airtable.com/appiB6h5WZFv68Yyc/shrgXpu6pz4i3Xo1T\n\n\nClick Once Executed !",
-        "height": 120,
-        "width": 280,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        620,
-        -40
-      ],
-      "id": "efabdc16-b083-4d35-b4a6-46e0874cd6b2",
-      "name": "Sticky Note4"
+      "id": "a329e5a6-6a4a-44e9-a00c-fa352a4dd277",
+      "name": "Simple Memory"
     }
   ],
   "pinData": {},
@@ -405,7 +466,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -416,7 +477,7 @@
       "main": [
         [
           {
-            "node": "Airtable",
+            "node": "Create a record",
             "type": "main",
             "index": 0
           }
@@ -445,9 +506,37 @@
         ]
       ]
     },
-    "Airtable": {
+    "AI Agent": {
       "main": [
-        []
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -455,11 +544,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "bcca20bf-e5df-4c4f-a003-7be05552f1c9",
+  "versionId": "7c311219-dabe-4b22-8f92-135a446c6888",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "0bbe2da02b625a9d2a2398f05b395ff8f27d9dd1fed1957fc7e30a92f307725c"
+    "instanceId": "68a6fb725892b331cb8f6e42cdf0c80fa53e825654bd554f1681dcb724788777"
   },
-  "id": "vgMr0QXsG0fe1NoB",
+  "id": "pFXJEbVKWoMDI1iR",
   "tags": []
 }
